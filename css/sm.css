@@ -1,0 +1,420 @@
+/* Eric Meyer's Reset CSS v2.0 - http://cssreset.com */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}table{border-collapse:collapse;border-spacing:0}
+
+/* box sizing reset */
+html {
+	box-sizing: border-box;
+	font-family: Helvetica, Arial, sans-serif;
+}
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+
+body {
+	background: #ccc;
+
+}
+
+#container {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+#boardarea {
+
+	position: absolute;
+	top: 0; 
+	left: 0;
+
+	width: 100%;
+	height: 100%;
+	border: 1px solid #000;
+
+	background: #424242;
+	overflow: scroll;
+
+}
+
+
+
+#board {
+
+	position: relative;
+
+	margin: 5px;
+
+	background: #424242;
+	width: 540px;
+	height: 540px;
+
+	font-family: Arial, sans-serif;
+}
+
+
+.cell {
+	width: 58px; 
+	height: 58px;
+	margin: 1px;
+
+	background: #080812;
+
+	float: left;
+
+	border: 1px solid #333;
+	border-top-color: #333;
+	border-left-color: #444;
+	border-bottom-color: #444;
+
+	position: relative;
+
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+
+
+
+}
+
+
+.cell.available {
+	background-color: #001024;
+}
+
+.cell.chip > span {	
+
+	position: relative;
+	margin-left: 10%;
+	margin-top: 10%;
+
+	display: block;
+	width: 80%;
+	height: 80%;
+
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+
+	border-bottom: 2px solid #999;
+
+}
+
+.cell.chip > span:before {
+	position: absolute;
+	top: 50%; 
+	left: 50%;
+
+	display: block;
+	width: 30px;
+	height: 30px;
+	margin: -15px 0 0 -15px;
+
+	content: "A";
+	text-align: center;
+	color: rgba(0,0,0,0.5);
+	text-shadow: 1px 1px 0 #000, -1px -1px 0 #999;
+	font-size: 30px;
+	/*background: url(../images/symbols.png) no-repeat;*/
+}
+
+/* reserved for selections */
+.cell:before {
+	position: absolute;
+	top: 0px; left: 0px;
+	display: block;
+	width: 56px; height: 56px;
+	content: "";
+	z-index: 1;
+}
+
+.cell.selection-1:before {
+	border: 3px solid #ff0;
+}
+
+
+
+/* contiguous cells */
+.cell.contiguous:hover:before,
+.cell.tmprange.contiguous:hover:before {
+	/*background: rgba(0, 255, 128, 0.2);*/
+	border: 3px dashed #ff0;
+}
+
+.cell.available:hover:before {
+	border: 3px dotted rgba(255,255,0,0.7);
+}
+
+.cell.range:hover:before {
+	border: 3px dotted #ff0;
+}
+
+
+.cell.tmprange:before,
+.cell.available.tmprange:before {
+	border: 1px dotted #ff0;
+}
+
+.cell.tmprange.invalidrange:before,
+.cell.available.tmprange.invalidrange:before {
+	border: 1px dotted #f00;	
+}
+
+
+
+.starter:after {
+	position: absolute; 
+	top: 50%; left: 50%;
+
+	display: block;
+	width: 10px; height: 10px;
+	margin: -5px 0 0 -5px;
+
+	content: "";
+	background: #ccc;
+}
+
+
+.cell.chip > span:hover {
+	opacity: 0.9;
+}
+
+.chip-0 {
+	background: #aaa;
+}
+.chip > span.chip-0:before {
+	content: '';
+}
+
+.chip-1 {
+	background: #aa0;
+}
+.chip > span.chip-1:before {
+	content: '\2605';
+}
+
+
+.chip-2 {
+	background: #00a;
+}
+.chip > span.chip-2:before {
+	content: '\25CF';
+}
+
+
+.chip-3 {
+	background: #0a0;
+}
+.chip > span.chip-3:before {
+	content: '\25B2';
+}
+
+
+.chip-4 {	
+	background: #a00;
+}
+.chip > span.chip-4:before {
+	content: '\2764';
+}
+
+
+/* pseudocursor */
+#cursor {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+}
+
+
+
+
+
+#subwindow {
+
+	position: absolute;
+	top: 20px; 
+	right: 20px;
+
+	z-index: 100;
+
+	width: 250px;
+	margin: 0;
+	padding: 5px;
+	border: 3px solid #000;
+
+
+	background: #333;
+	color: #ccc;
+
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+
+}
+
+#playerid {
+	width: 100%;
+	font-size: 1.2em;
+	background: #222;
+
+}
+
+#playernumber {
+	display: inline-block;
+	background: #ccc; color: #333;
+	padding: 5px;
+}
+
+#playername {
+	display: inline;
+	padding: 5px;
+}
+
+#playerpoints {
+
+	padding: 5px;
+	margin: 5px 0;
+	background: #222;
+	border: 1px dotted #aaa;
+
+	font-size: 1.5em;
+	color: #aa0;
+	text-align: center;
+
+	font-family: monospace;
+
+}
+
+#turncounters {
+
+	border-bottom: 1px dotted #aaa;
+	padding: 0 0 5px; 
+
+	font-size: 0.7em;
+	text-transform: uppercase;
+
+}
+
+
+#turncounters strong {
+	color: #fff;
+}
+
+#turncounters #turn {
+	width: 50%; 
+	float: left;
+}
+
+#turncounters #actions {
+	width: 50%;
+	float: right;
+	text-align: right;
+}
+
+#nextchipqueue {
+	background: #222;
+	height: 53px;
+	margin-bottom: 5px;
+
+} 
+
+#nextchipqueue span {
+	display: inline-block;
+	padding: 2px 5px;
+
+	font-size: 0.5em;
+	text-transform: uppercase;
+	background: #aa0;
+	color: #333;
+}
+
+#nextchipqueue > div {
+
+	position: relative;
+	float: left;
+
+	width: 40px; height: 40px;
+	padding: 3px;
+	border: 1px solid #222;
+	background: #222;
+
+}
+
+#nextchipqueue > div.next-0 {
+	border-color: #aa0;
+}
+
+#nextchipqueue > div:after {
+	position: absolute;
+	top: 4px; left: 4px;
+	display: block;
+	width: 30px; height: 30px;
+	content: "";
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+
+#nextchipqueue > div.chip-0:after { background: #aaa; }
+#nextchipqueue > div.chip-1:after { background: #aa0; }
+#nextchipqueue > div.chip-2:after { background: #00a; }
+#nextchipqueue > div.chip-3:after { background: #0a0; }
+#nextchipqueue > div.chip-4:after { background: #a00; }
+
+
+
+#turncounters:after,
+#nextchipqueue:after {
+	content: "";
+	display: block;
+	clear: both;
+	width: 100%;
+	height: 1px;
+}
+
+
+
+.chipvaluecontainer {
+	border: 1px solid #555;
+	background: #222;
+	width: 100%;
+	padding: 5px;
+}
+
+.chipvaluecontainer > * { display: inline-block; margin: 0 5px 0 0; }
+
+.chipvaluecontainer > *:first-child {
+	width: 1em; height: 1em;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;	
+
+}
+
+.chipvaluecontainer .chip-1 { background: #aa0; }
+.chipvaluecontainer .chip-2 { background: #00a; }
+.chipvaluecontainer .chip-3 { background: #0a0; }
+.chipvaluecontainer .chip-4 { background: #a00; }
+
+.chipvaluecontainer .chipcount {
+	color: #fff;
+	font-weight: bold;
+	padding-left: 5px;
+	border-left: 1px dotted #555;
+}
+
+
+.chipvaluecontainer .chipvalue {
+	width: 4em;
+	font-family: monospace;
+	font-size: 1em;
+	text-align: right;
+}
+
+
+.chipvaluecontainer .chipcount:before {
+	content: "CNT ";
+	font-size: 0.5em;
+}
