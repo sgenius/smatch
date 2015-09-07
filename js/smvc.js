@@ -42,7 +42,18 @@ var SMVC = {
 	_boardInteractions: [],
 
 	// for practical purposes, we'll store the coordinates of the first and second selected cell, if available
-	_selectedRangeCorners: []
+	_selectedRangeCorners: [],
+
+
+	// minutes per play, if the game is time-based
+	_maxSeconds: 60 * 3,
+
+	// seconds left in the game, if the game is time based
+	_secondsLeft: undefined,
+
+	// reference to the "seconds" timer, if the game is timed
+	_secondsTimer: undefined
+
 };
 
 
@@ -528,12 +539,16 @@ SMVC.VC.prototype.getButtonSellClick = function(ev) {
 
 SMVC.VC.prototype.initializeGame = function() {
 
-	var md = $("#inputMinutes").val();
+	// start the game clock
 
-	console.log("VC.initializeGame > minutes: ", md);
+	SMVC._secondsLeft = SMVC._maxSeconds;
 
-	SMVC.sm.setMaxMinutes(md);
+	console.log("VC.initializeGame > SVMC._secondsLeft: ", SMVC._secondsLeft);
+
+	SMVC._secondsTimer = window.setTimeout(vc.doSecondsUpdate(), 1000);
+
 	vc.activatePage("#main");
+
 }
 
 /**
@@ -784,6 +799,37 @@ SMVC.VC.prototype.sellChips = function(chipType) {
 
 
 
+/**
+ * For timed games, handles the "tick" that runs every second. That is, updates the clock and the chip values.
+ */
+
+
+SMVC.VC.prototype.doSecondsUpdate = function() {
+
+	// ...here goes all that chip value updating...
+
+	// Update the clock.
+	console.log("SMVC.doSecondsUpdate > SMVC._secondsLeft: ", SMVC._secondsLeft);
+	SMVC._secondsLeft--;
+
+	// If the game is over, end the game.
+	if(SMVC._secondsLeft <= 0) {
+		console.log("doSecondsUpdate > no more seconds! Game over.");
+		// vc.endGame();
+	} else {
+		// Rehook the seconds timer.
+		SMVC._secondsTimer = window.setTimeout(vc.doSecondsUpdate, 1000);		
+	}
+
+
+	// Refresh the subwindow.
+	vc.drawSubWindow();	
+
+}
+
+
+
+
 //  ██████╗ ██╗   ██╗████████╗██████╗ ██╗   ██╗████████╗    ██╗  ██╗ █████╗ ███╗   ██╗██████╗ ██╗     ███████╗██████╗ ███████╗
 // ██╔═══██╗██║   ██║╚══██╔══╝██╔══██╗██║   ██║╚══██╔══╝    ██║  ██║██╔══██╗████╗  ██║██╔══██╗██║     ██╔════╝██╔══██╗██╔════╝
 // ██║   ██║██║   ██║   ██║   ██████╔╝██║   ██║   ██║       ███████║███████║██╔██╗ ██║██║  ██║██║     █████╗  ██████╔╝███████╗
@@ -867,6 +913,20 @@ SMVC.VC.prototype.initialOutput = function(){
 
 		$(".button-startgame").on("mouseup", function(ev){
 			console.log("startgame pushed");
+
+			var md = $("#inputMinutes").val();
+			md = parseInt(md, 10); 
+
+			console.log("VC.initialOutput > .button-startgame.onmouseup > md: ", md);
+
+
+			if(typeof md != "number") { md = 3; }
+			if( md < 1 || md > 5 ) { md = 3; }
+
+			SMVC._maxSeconds = md * 60;
+
+			console.log("VC.initialOutput > .button-startgame.onmouseup > SMVC._maxSeconds: ", SMVC._maxSeconds);
+
 			vc.initializeGame();	
 		});
 
@@ -953,6 +1013,7 @@ SMVC.VC.prototype.drawSubWindow = function() {
 
 	var chipqueue, chipcount, chipvalue;
 	var divstr = "";
+	var mins, secs;
 
 	var playernumber = 1 + SMVC.sm.getCurrentPlayerNumber();
 
@@ -963,13 +1024,33 @@ SMVC.VC.prototype.drawSubWindow = function() {
 	// player points
 	$("#playerpoints").text("$" + SMVC.sm.getCurrentPlayerPoints());
 
-	// turns available
-	$("#turnnumber").text(SMVC.sm.getCurrentTurn());
-	$("#turnsavailable").text(SMVC.sm.getMaxTurns());
+	if(SMVC.sm.isTurnBased()) {
+		// turns available, if this is a turns-based game
+		$("#turnnumber").text(SMVC.sm.getCurrentTurn());
+		$("#turnsavailable").text(SMVC.sm.getMaxTurns());	
+	} else {
+		// clock, if this is a time-based game
+
+		// this needs a padding function
+
+		console.log("vc.drawSubWindow > SMVC._secondsLeft: ", SMVC._secondsLeft);
+
+		mins = Math.floor(SMVC._secondsLeft / 60);
+		secs = SMVC._secondsLeft - (mins * 60);
+
+		console.log("vc.drawSubWindow > mins: ", mins, ", secs: ", secs);
+
+		if(mins < 10) { mins = "0" + mins; }
+		if(secs < 10) { secs = "0" + secs; }
+
+		$("#clockminutes").text(mins);
+		$("#clockseconds").text(secs);
+
+	}
 
 	// next chip queue
 	chipqueue = SMVC.sm.getCurrentPlayerChipQueue();
-	console.log("VC.drawSubWindow > chipqueue: ", chipqueue);
+
 	$("#nextchipqueue").empty().append("<span>Next</span>");
 	for(var i = 0; i < chipqueue.length; i++) {
 		$("<div class='next-" + i + " chip-" + chipqueue[i] + "'></div>").appendTo("#nextchipqueue");

@@ -124,6 +124,10 @@ body {
 	&.available {
 		background-color: $availableCellBackgroundColor;
 		cursor: pointer;
+		@include box-shadow(lighten($availableCellBackgroundColor, 20) 0 0 10px inset);
+
+		border-color: lighten($availableCellBackgroundColor, 10);
+
 	}
 
 
@@ -457,7 +461,7 @@ body {
 		border-left: 1px dotted #555;
 
 		&:before {
-			content: "CNT ";
+			content: "x ";
 			font-size: 0.5em;
 		}
 

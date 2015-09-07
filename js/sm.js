@@ -1,5 +1,5 @@
 // sm.js
-// the model / logic for simmatch
+// the model / logic for smatch
 
 
 // ███████╗███╗   ███╗
@@ -83,13 +83,13 @@ var SM = (function() {
 		var _chipBaseProbability = new Array(1, 5, 5, 4, 3);
 
 
+		// the game is turn-based? false for time-based
+		var _isTurnBased = false;
 
-		// how many turns are there in a game
+		// how many turns are there in a game, for a turn-based game
 		var _maxTurns = 12;
 
 
-		// the game is time-based? false for turn-based
-		var _isTurnBased = true;
 
 
 		// current turn, if the game is turn-based
@@ -99,8 +99,7 @@ var SM = (function() {
 		var _currentAction = 0;
 
 
-		// minutes per play, if the game is time-based
-		var _maxMinutes = 3;
+
 
 
 		// How many players are there in this game
@@ -1133,12 +1132,8 @@ var SM = (function() {
 				return _players[_currentPlayer].sellChips(chipType);
 			},
 
-			setMaxMinutes: function(mins) {
-				_maxMinutes = mins;
-			},
-
-			getMaxMinutes: function(){
-				return _maxMinutes;
+			isTurnBased: function() {
+				return _isTurnBased;
 			},
 
 			// countRemainingChips: function() {
