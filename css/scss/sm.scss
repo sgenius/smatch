@@ -1,0 +1,522 @@
+@import "compass";
+
+/* Eric Meyer's Reset CSS v2.0 - http://cssreset.com */
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}table{border-collapse:collapse;border-spacing:0}
+
+
+/* Variables */
+
+$selectionColor: #ff0;
+$invalidSelectionColor: #f00;
+
+$fieldBackgroundColor: #342A21;
+$fieldBackgroundLighterColor: #596354;
+
+$cellBackgroundColor: #080812;
+$availableCellBackgroundColor: #001024;
+
+$chipColors: #b88a00, #3366ff, #f5b800, #ff33cc, #002eb8, #ffcc33, #ff6633, #33ff66, #ccff33;
+$chipSymbols: '\2605', '\25CF', '\25B2', '\2764', '\2665', '\263D', '\9670', '\9824', '\9827';   
+
+
+/* box sizing reset */
+html {
+	box-sizing: border-box;
+	font-family: Helvetica, Arial, sans-serif;
+}
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+
+body {
+	background: #ccc;
+
+}
+
+
+/* pages */
+
+#pagecontainer {
+	width: 100%; height: 100%;
+	position: relative;
+}
+
+.page {
+
+	position: absolute;
+	top: 0; left: 0;
+
+	width: 100%; height: 100%;
+	opacity: 0;
+
+	-webkit-transition: opacity 1s ease-in-out;
+	-moz-transition: opacity 1s ease-in-out;
+	-o-transition: opacity 1s ease-in-out;
+	transition: opacity 1s ease-in-out;
+}
+
+.activepage {
+	opacity: 1;
+}
+
+
+/* main screen */
+
+#container {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+#boardarea {
+
+	position: absolute;
+	top: 0; 
+	left: 0;
+
+	width: 100%;
+	height: 100%;
+	border: 1px solid #000;
+
+	background: $fieldBackgroundColor;
+	overflow: scroll;
+
+}
+
+
+
+#board {
+
+	position: relative;
+
+	margin: 5px;
+
+	background: $fieldBackgroundColor;
+	width: 540px;
+	height: 540px;
+
+	font-family: Arial, sans-serif;
+}
+
+
+.cell {
+	width: 58px; 
+	height: 58px;
+	margin: 1px;
+
+	background: $cellBackgroundColor;
+
+	float: left;
+
+	border: 1px solid lighten($fieldBackgroundColor, 8);
+	border-top-color: lighten($fieldBackgroundColor, 8);
+	border-left-color: darken($fieldBackgroundColor, 8);
+	border-bottom-color: darken($fieldBackgroundColor, 8);
+
+	position: relative;
+
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+
+	&.available {
+		background-color: $availableCellBackgroundColor;
+		cursor: pointer;
+	}
+
+
+	&.chip > span {	
+
+		position: relative;
+		margin-left: 10%;
+		margin-top: 10%;
+
+		display: block;
+		width: 80%;
+		height: 80%;
+
+		-webkit-border-radius: 10px;
+		-moz-border-radius: 10px;
+		border-radius: 10px;
+ 
+		border-bottom: 2px solid #333;
+
+		&:hover {
+			opacity: 0.9;
+		}
+
+		&:before {
+			position: absolute;
+			top: 50%; 
+			left: 50%;
+
+			display: block;
+			width: 30px;
+			height: 30px;
+			margin: -15px 0 0 -15px;
+
+			content: "";
+			text-align: center;
+			color: rgba(0,0,0,0.5);
+			// text-shadow: 1px 1px 0 #000, -1px -1px 0 #999;
+			font-size: 30px;
+			/*background: url(../images/symbols.png) no-repeat;*/
+
+			cursor: pointer;
+		}
+
+
+	}
+
+
+	/* Reserved for selections */
+	&:before {
+		position: absolute;
+		top: 0px; left: 0px;
+		display: block;
+		width: 56px; height: 56px;
+		content: "";
+		z-index: 1;
+		cursor: pointer;
+	}
+
+	&.selection-1:before {
+		border: 3px solid $selectionColor;
+	}
+
+
+
+	/* contiguous cells */
+	&.contiguous:hover:before,
+	&.tmprange.contiguous:hover:before {
+		/*background: rgba(0, 255, 128, 0.2);*/
+		border: 3px dashed $selectionColor;
+	}
+
+	&.available:hover:before {
+		border: 3px dotted rgba($selectionColor,0.7);
+	}
+
+	&.range:hover:before {
+		border: 3px dotted $selectionColor;
+	}
+
+	&.tmprange,
+	&.available.tmprange {
+		&:before {
+			border: 1px dotted $selectionColor;
+		}
+		&.invalidrange:before {
+			border: 1px dotted $invalidSelectionColor;
+		}
+	}
+
+}
+
+
+
+
+.starter:after {
+	position: absolute; 
+	top: 50%; left: 50%;
+
+	display: block;
+	width: 10px; height: 10px;
+	margin: -5px 0 0 -5px;
+
+	content: "";
+	background: #ccc;
+}
+
+
+
+/* chip rendering */
+
+.chip-0 {
+	background: #aaa;
+	color: #000;
+}
+.chip > span.chip-0:before {
+	content: '';
+}
+
+
+@for $i from 1 through 9 {
+	.chip-#{$i} {
+		background: nth($chipColors, $i);
+		color: darken(nth($chipColors, $i), 8);
+		> span {
+			border-bottom: 2px solid darken(nth($chipColors, $i), 16);
+		}
+	}
+	.chip > span.chip-#{$i}:before {
+		content: nth($chipSymbols, $i);
+	}
+}
+
+
+
+/* pseudocursor */
+#cursor {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+}
+
+
+
+
+
+#subwindow {
+
+	position: absolute;
+	top: 20px; 
+	right: 20px;
+
+	z-index: 100;
+
+	width: 250px;
+	margin: 0;
+	padding: 5px;
+	border: 3px solid #000;
+
+
+	background: #333;
+	color: #ccc;
+
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+
+}
+
+#playerid {
+	width: 100%;
+	font-size: 1.2em;
+	background: #222;
+
+}
+
+#playernumber {
+	display: inline-block;
+	background: #ccc; color: #333;
+	padding: 5px;
+}
+
+#playername {
+	display: inline;
+	padding: 5px;
+}
+
+#playerpoints {
+
+	padding: 5px;
+	margin: 5px 0;
+	background: #222;
+	border: 1px dotted #aaa;
+
+	font-size: 1.5em;
+	color: #aa0;
+	text-align: center;
+
+	font-family: monospace;
+
+}
+
+#turncounters {
+
+	border-bottom: 1px dotted #aaa;
+	padding: 5px 0; 
+
+	font-size: 0.7em;
+	text-transform: uppercase;
+
+	strong {
+		color: #fff;
+	}
+
+	#turn {
+		width: 50%; 
+		float: left;		
+	}
+
+	#actions {
+		width: 50%;
+		float: right;
+		text-align: right;		
+	}
+
+}
+
+
+#nextchipqueue {
+	background: #222;
+	height: 53px;
+	margin-bottom: 5px;
+
+	span {
+		display: inline-block;
+		padding: 2px 5px;
+
+		font-size: 0.5em;
+		text-transform: uppercase;
+		background: #aa0;
+		color: #333;		
+	}
+
+	> div {
+
+		position: relative;
+		float: left;
+
+		width: 40px; height: 40px;
+		padding: 3px;
+		border: 1px solid #222;
+		background: #222;
+
+		&.next-0 {
+			border-color: #aa0;	
+		}
+
+		&:after {
+			position: absolute;
+			top: 4px; left: 4px;
+			display: block;
+			width: 30px; height: 30px;
+			content: "";
+
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+		}
+		
+
+		&.chip-0:after { background: #aaa; }
+
+		@for $i from 1 through 9 {
+			&.chip-#{$i}:after {
+				background: nth($chipColors, $i);
+				color: darken(nth($chipColors, $i), 8);
+			}
+		}
+
+
+
+	}
+
+} 
+
+
+#turncounters:after,
+#nextchipqueue:after {
+	content: "";
+	display: block;
+	clear: both;
+	width: 100%;
+	height: 1px;
+}
+
+
+
+.chipvaluecontainer {
+	border: 1px solid #555;
+	background: #222;
+	width: 100%;
+	padding: 5px;
+
+	> * { display: inline-block; margin: 0 5px 0 0; }
+	> *:first-child {
+		width: 1em; height: 1em;
+		-webkit-border-radius: 2px;
+		-moz-border-radius: 2px;
+		border-radius: 2px;	
+	}
+
+	@for $i from 1 through 9 {
+		&.chip-#{$i} {
+			background: nth($chipColors, $i);
+			color: darken(nth($chipColors, $i), 8);
+		}
+	}
+
+	.chipcount {
+		color: #fff;
+		font-weight: bold;
+		padding-left: 5px;
+		border-left: 1px dotted #555;
+
+		&:before {
+			content: "CNT ";
+			font-size: 0.5em;
+		}
+
+	}
+
+	.chipvalue {
+		width: 4em;
+		font-family: monospace;
+		font-size: 1.2em;
+		text-align: right;
+	}
+
+
+}
+
+
+.button {
+
+	display: inline-block;
+	float: right;
+
+	cursor: pointer;
+	font-size: 12px;
+	line-height: 1.2;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: #ccc;
+
+	padding: 0.2em 0.5em;
+	border: 1px solid #ccc;
+}
+
+.button-sell {
+
+}
+
+
+/* intro screen */
+
+.gametitle {
+	h1, h2 {
+		text-align: center;
+	}
+	h1 {
+		font-size: 3.5em;
+	}
+}
+
+.gameoptions, .actionbutton {
+	font-size: 2em;
+	width: 80%;
+	margin: 2em auto;
+}
+
+.gameoptions input {
+	display: inline;
+	font-size: 1em;
+}
+
+.actionbutton {
+	border: 1px solid #000;
+	padding: 0.5em;
+
+	font-weight: bold;
+	text-align: center;
+	cursor: pointer;
+
+	&:hover {
+		background: #fff;
+	}
+}
+

@@ -101,6 +101,32 @@ SMVC.VC = function() {
 
 
 
+
+/**
+ * Page controller. The only "true controller" here.
+ * @param {string} pageToShow - the "page" to activate.
+ * @returns true on success.
+ */
+
+SMVC.VC.prototype.activatePage = function(pageToShow) {
+	var pts = $(pageToShow);
+
+	console.log("VC.activatePage > page to show: ", pts);
+
+	if(!(pts).hasClass("page")) { return false; }
+	// $(".activepage").hide().removeClass("activepage");
+	// pts.show().addClass("activepage");
+
+	$(".activepage").removeClass("activepage");
+	pts.addClass("activepage");
+
+
+	return true;
+
+}
+
+
+
 // ██╗  ██╗███████╗██╗     ██████╗ ███████╗██████╗ ███████╗
 // ██║  ██║██╔════╝██║     ██╔══██╗██╔════╝██╔══██╗██╔════╝
 // ███████║█████╗  ██║     ██████╔╝█████╗  ██████╔╝███████╗
@@ -476,7 +502,39 @@ SMVC.VC.prototype.getCellClick = function(event) {
 }
 
 
+/**
+ * Click controller for the Sell buttons. 
+* @param {object} event
+*/
+
+SMVC.VC.prototype.getButtonSellClick = function(ev) {
+
+	var currentButton = $(event.target);
+	var whatChipId = currentButton.parent().attr("id");
+	var whatChipArr = whatChipId.split("-");
+	var whatChip = whatChipArr[1];
+	console.log("getButtonSellClick > whatChip: ", whatChip);
+
+	vc.sellChips(whatChip);
+
+}  
+
+
 // from here on, it's mostly logic
+
+/**
+ * Initialize a game using the current starting parameters.
+ */
+
+SMVC.VC.prototype.initializeGame = function() {
+
+	var md = $("#inputMinutes").val();
+
+	console.log("VC.initializeGame > minutes: ", md);
+
+	SMVC.sm.setMaxMinutes(md);
+	vc.activatePage("#main");
+}
 
 /**
  * Given its coordinates, marks a cell as the first selected cell.
@@ -712,6 +770,19 @@ SMVC.VC.prototype.solveRange = function() {
 
 
 
+/**
+ * Sells the chips of a certain type.
+ * @param {number} chipType; must be a valid type of chip at play
+ */
+
+SMVC.VC.prototype.sellChips = function(chipType) {
+	console.log("VC.sellChips(" , chipType, "): calling underlying function");
+	SMVC.sm.sellChips(chipType);
+	vc.drawSubWindow();
+};
+
+
+
 
 //  ██████╗ ██╗   ██╗████████╗██████╗ ██╗   ██╗████████╗    ██╗  ██╗ █████╗ ███╗   ██╗██████╗ ██╗     ███████╗██████╗ ███████╗
 // ██╔═══██╗██║   ██║╚══██╔══╝██╔══██╗██║   ██║╚══██╔══╝    ██║  ██║██╔══██╗████╗  ██║██╔══██╗██║     ██╔════╝██╔══██╗██╔════╝
@@ -733,6 +804,10 @@ SMVC.VC.prototype.initialOutput = function(){
 	var self = this;
 
 	$(document).ready(function(){
+
+
+
+		// main game screen
 
 		// assumes #board exists; should be a div
 		var board = $("#board");
@@ -776,6 +851,24 @@ SMVC.VC.prototype.initialOutput = function(){
 		// output to the subwindow
 		vc.drawSubWindow();
 
+		// connect the hooks for the subwindow buttons
+		// $(".button-sell").on("mouseenter mousedown"), function(ev){
+		// 	vc.getButtonSellHover(ev);
+		// }		
+
+		$("#subwindow").on("mouseup", ".button-sell", function(ev) {
+			vc.getButtonSellClick(ev);
+		});
+
+		// intro screen
+
+
+		console.log("VC.initialOutput > .button-startgame: ", $(".button-startgame"));
+
+		$(".button-startgame").on("mouseup", function(ev){
+			console.log("startgame pushed");
+			vc.initializeGame();	
+		});
 
 	});
 }
@@ -890,7 +983,7 @@ SMVC.VC.prototype.drawSubWindow = function() {
 	// the count starts in 1 because we don't need to display the count for wildcards
 	for(i = 1; i < chipcount.length; i++) {
 		divstr  = "<div class='chipvaluecontainer' id='chipvalue-" + i + "'><div class='chip-" + i + "'></div><div class='chipvalue'>$" + chipvalue[i] + "</div>";
-		divstr += "<div class='chiptendency'></div><div class='chipcount'>" + chipcount[i] + "</div></div>";
+		divstr += "<div class='chiptendency'></div><div class='chipcount'>" + chipcount[i] + "</div><span class='button button-sell'>Sell</span></div>";
 		$("#chipvalues").append(divstr);
 	}
 

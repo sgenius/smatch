@@ -1,420 +1,691 @@
+@charset "UTF-8";
 /* Eric Meyer's Reset CSS v2.0 - http://cssreset.com */
-html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{border:0;font-size:100%;font:inherit;vertical-align:baseline;margin:0;padding:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}table{border-collapse:collapse;border-spacing:0}
-
-/* box sizing reset */
-html {
-	box-sizing: border-box;
-	font-family: Helvetica, Arial, sans-serif;
+/* line 4, scss/sm.scss */
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  margin: 0;
+  padding: 0;
 }
-*, *:before, *:after {
-	box-sizing: inherit;
+
+/* line 4, scss/sm.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block;
 }
 
-
+/* line 4, scss/sm.scss */
 body {
-	background: #ccc;
-
+  line-height: 1;
 }
 
+/* line 4, scss/sm.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 4, scss/sm.scss */
+blockquote, q {
+  quotes: none;
+}
+
+/* line 4, scss/sm.scss */
+blockquote:before, blockquote:after, q:before, q:after {
+  content: none;
+}
+
+/* line 4, scss/sm.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Variables */
+/* box sizing reset */
+/* line 23, scss/sm.scss */
+html {
+  box-sizing: border-box;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+/* line 27, scss/sm.scss */
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+/* line 32, scss/sm.scss */
+body {
+  background: #ccc;
+}
+
+/* pages */
+/* line 40, scss/sm.scss */
+#pagecontainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* line 45, scss/sm.scss */
+.page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  -webkit-transition: opacity 1s ease-in-out;
+  -moz-transition: opacity 1s ease-in-out;
+  -o-transition: opacity 1s ease-in-out;
+  transition: opacity 1s ease-in-out;
+}
+
+/* line 59, scss/sm.scss */
+.activepage {
+  opacity: 1;
+}
+
+/* main screen */
+/* line 66, scss/sm.scss */
 #container {
-	width: 100%;
-	height: 100%;
-	position: relative;
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
+/* line 72, scss/sm.scss */
 #boardarea {
-
-	position: absolute;
-	top: 0; 
-	left: 0;
-
-	width: 100%;
-	height: 100%;
-	border: 1px solid #000;
-
-	background: #424242;
-	overflow: scroll;
-
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #000;
+  background: #342A21;
+  overflow: scroll;
 }
 
-
-
+/* line 89, scss/sm.scss */
 #board {
-
-	position: relative;
-
-	margin: 5px;
-
-	background: #424242;
-	width: 540px;
-	height: 540px;
-
-	font-family: Arial, sans-serif;
+  position: relative;
+  margin: 5px;
+  background: #342A21;
+  width: 540px;
+  height: 540px;
+  font-family: Arial, sans-serif;
 }
 
-
+/* line 103, scss/sm.scss */
 .cell {
-	width: 58px; 
-	height: 58px;
-	margin: 1px;
-
-	background: #080812;
-
-	float: left;
-
-	border: 1px solid #333;
-	border-top-color: #333;
-	border-left-color: #444;
-	border-bottom-color: #444;
-
-	position: relative;
-
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-
-
-
+  width: 58px;
+  height: 58px;
+  margin: 1px;
+  background: #080812;
+  float: left;
+  border: 1px solid #4d3e31;
+  border-top-color: #4d3e31;
+  border-left-color: #1b1611;
+  border-bottom-color: #1b1611;
+  position: relative;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  /* Reserved for selections */
+  /* contiguous cells */
 }
-
-
+/* line 123, scss/sm.scss */
 .cell.available {
-	background-color: #001024;
+  background-color: #001024;
+  cursor: pointer;
 }
-
-.cell.chip > span {	
-
-	position: relative;
-	margin-left: 10%;
-	margin-top: 10%;
-
-	display: block;
-	width: 80%;
-	height: 80%;
-
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-
-	border-bottom: 2px solid #999;
-
+/* line 129, scss/sm.scss */
+.cell.chip > span {
+  position: relative;
+  margin-left: 10%;
+  margin-top: 10%;
+  display: block;
+  width: 80%;
+  height: 80%;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  border-bottom: 2px solid #333;
 }
-
-.cell.chip > span:before {
-	position: absolute;
-	top: 50%; 
-	left: 50%;
-
-	display: block;
-	width: 30px;
-	height: 30px;
-	margin: -15px 0 0 -15px;
-
-	content: "A";
-	text-align: center;
-	color: rgba(0,0,0,0.5);
-	text-shadow: 1px 1px 0 #000, -1px -1px 0 #999;
-	font-size: 30px;
-	/*background: url(../images/symbols.png) no-repeat;*/
-}
-
-/* reserved for selections */
-.cell:before {
-	position: absolute;
-	top: 0px; left: 0px;
-	display: block;
-	width: 56px; height: 56px;
-	content: "";
-	z-index: 1;
-}
-
-.cell.selection-1:before {
-	border: 3px solid #ff0;
-}
-
-
-
-/* contiguous cells */
-.cell.contiguous:hover:before,
-.cell.tmprange.contiguous:hover:before {
-	/*background: rgba(0, 255, 128, 0.2);*/
-	border: 3px dashed #ff0;
-}
-
-.cell.available:hover:before {
-	border: 3px dotted rgba(255,255,0,0.7);
-}
-
-.cell.range:hover:before {
-	border: 3px dotted #ff0;
-}
-
-
-.cell.tmprange:before,
-.cell.available.tmprange:before {
-	border: 1px dotted #ff0;
-}
-
-.cell.tmprange.invalidrange:before,
-.cell.available.tmprange.invalidrange:before {
-	border: 1px dotted #f00;	
-}
-
-
-
-.starter:after {
-	position: absolute; 
-	top: 50%; left: 50%;
-
-	display: block;
-	width: 10px; height: 10px;
-	margin: -5px 0 0 -5px;
-
-	content: "";
-	background: #ccc;
-}
-
-
+/* line 145, scss/sm.scss */
 .cell.chip > span:hover {
-	opacity: 0.9;
+  opacity: 0.9;
+}
+/* line 149, scss/sm.scss */
+.cell.chip > span:before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  content: "";
+  text-align: center;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 30px;
+  /*background: url(../images/symbols.png) no-repeat;*/
+  cursor: pointer;
+}
+/* line 174, scss/sm.scss */
+.cell:before {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: block;
+  width: 56px;
+  height: 56px;
+  content: "";
+  z-index: 1;
+  cursor: pointer;
+}
+/* line 184, scss/sm.scss */
+.cell.selection-1:before {
+  border: 3px solid #ff0;
+}
+/* line 191, scss/sm.scss */
+.cell.contiguous:hover:before, .cell.tmprange.contiguous:hover:before {
+  /*background: rgba(0, 255, 128, 0.2);*/
+  border: 3px dashed #ff0;
+}
+/* line 197, scss/sm.scss */
+.cell.available:hover:before {
+  border: 3px dotted rgba(255, 255, 0, 0.7);
+}
+/* line 201, scss/sm.scss */
+.cell.range:hover:before {
+  border: 3px dotted #ff0;
+}
+/* line 207, scss/sm.scss */
+.cell.tmprange:before, .cell.available.tmprange:before {
+  border: 1px dotted #ff0;
+}
+/* line 210, scss/sm.scss */
+.cell.tmprange.invalidrange:before, .cell.available.tmprange.invalidrange:before {
+  border: 1px dotted #f00;
 }
 
+/* line 220, scss/sm.scss */
+.starter:after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  content: "";
+  background: #ccc;
+}
+
+/* chip rendering */
+/* line 236, scss/sm.scss */
 .chip-0 {
-	background: #aaa;
+  background: #aaa;
+  color: #000;
 }
+
+/* line 240, scss/sm.scss */
 .chip > span.chip-0:before {
-	content: '';
+  content: '';
 }
 
+/* line 246, scss/sm.scss */
 .chip-1 {
-	background: #aa0;
+  background: #b88a00;
+  color: #8f6b00;
 }
+/* line 249, scss/sm.scss */
+.chip-1 > span {
+  border-bottom: 2px solid #664d00;
+}
+
+/* line 253, scss/sm.scss */
 .chip > span.chip-1:before {
-	content: '\2605';
+  content: "★";
 }
 
-
+/* line 246, scss/sm.scss */
 .chip-2 {
-	background: #00a;
+  background: #3366ff;
+  color: #0a47ff;
 }
+/* line 249, scss/sm.scss */
+.chip-2 > span {
+  border-bottom: 2px solid #0038e0;
+}
+
+/* line 253, scss/sm.scss */
 .chip > span.chip-2:before {
-	content: '\25CF';
+  content: "●";
 }
 
-
+/* line 246, scss/sm.scss */
 .chip-3 {
-	background: #0a0;
+  background: #f5b800;
+  color: #cc9900;
 }
+/* line 249, scss/sm.scss */
+.chip-3 > span {
+  border-bottom: 2px solid #a37b00;
+}
+
+/* line 253, scss/sm.scss */
 .chip > span.chip-3:before {
-	content: '\25B2';
+  content: "▲";
 }
 
-
-.chip-4 {	
-	background: #a00;
+/* line 246, scss/sm.scss */
+.chip-4 {
+  background: #ff33cc;
+  color: #ff0ac2;
 }
+/* line 249, scss/sm.scss */
+.chip-4 > span {
+  border-bottom: 2px solid #e000a8;
+}
+
+/* line 253, scss/sm.scss */
 .chip > span.chip-4:before {
-	content: '\2764';
+  content: "❤";
 }
 
+/* line 246, scss/sm.scss */
+.chip-5 {
+  background: #002eb8;
+  color: #00248f;
+}
+/* line 249, scss/sm.scss */
+.chip-5 > span {
+  border-bottom: 2px solid #001a66;
+}
+
+/* line 253, scss/sm.scss */
+.chip > span.chip-5:before {
+  content: "♥";
+}
+
+/* line 246, scss/sm.scss */
+.chip-6 {
+  background: #ffcc33;
+  color: #ffc20a;
+}
+/* line 249, scss/sm.scss */
+.chip-6 > span {
+  border-bottom: 2px solid #e0a800;
+}
+
+/* line 253, scss/sm.scss */
+.chip > span.chip-6:before {
+  content: "☽";
+}
+
+/* line 246, scss/sm.scss */
+.chip-7 {
+  background: #ff6633;
+  color: #ff470a;
+}
+/* line 249, scss/sm.scss */
+.chip-7 > span {
+  border-bottom: 2px solid #e03800;
+}
+
+/* line 253, scss/sm.scss */
+.chip > span.chip-7:before {
+  content: "陰";
+}
+
+/* line 246, scss/sm.scss */
+.chip-8 {
+  background: #33ff66;
+  color: #0aff47;
+}
+/* line 249, scss/sm.scss */
+.chip-8 > span {
+  border-bottom: 2px solid #00e038;
+}
+
+/* line 253, scss/sm.scss */
+.chip > span.chip-8:before {
+  content: "頤";
+}
+
+/* line 246, scss/sm.scss */
+.chip-9 {
+  background: #ccff33;
+  color: #c2ff0a;
+}
+/* line 249, scss/sm.scss */
+.chip-9 > span {
+  border-bottom: 2px solid #a8e000;
+}
+
+/* line 253, scss/sm.scss */
+.chip > span.chip-9:before {
+  content: "頧";
+}
 
 /* pseudocursor */
+/* line 261, scss/sm.scss */
 #cursor {
-	position: absolute;
-	width: 20px;
-	height: 20px;
+  position: absolute;
+  width: 20px;
+  height: 20px;
 }
 
-
-
-
-
+/* line 271, scss/sm.scss */
 #subwindow {
-
-	position: absolute;
-	top: 20px; 
-	right: 20px;
-
-	z-index: 100;
-
-	width: 250px;
-	margin: 0;
-	padding: 5px;
-	border: 3px solid #000;
-
-
-	background: #333;
-	color: #ccc;
-
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;
-
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  width: 250px;
+  margin: 0;
+  padding: 5px;
+  border: 3px solid #000;
+  background: #333;
+  color: #ccc;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
 }
 
+/* line 294, scss/sm.scss */
 #playerid {
-	width: 100%;
-	font-size: 1.2em;
-	background: #222;
-
+  width: 100%;
+  font-size: 1.2em;
+  background: #222;
 }
 
+/* line 301, scss/sm.scss */
 #playernumber {
-	display: inline-block;
-	background: #ccc; color: #333;
-	padding: 5px;
+  display: inline-block;
+  background: #ccc;
+  color: #333;
+  padding: 5px;
 }
 
+/* line 307, scss/sm.scss */
 #playername {
-	display: inline;
-	padding: 5px;
+  display: inline;
+  padding: 5px;
 }
 
+/* line 312, scss/sm.scss */
 #playerpoints {
-
-	padding: 5px;
-	margin: 5px 0;
-	background: #222;
-	border: 1px dotted #aaa;
-
-	font-size: 1.5em;
-	color: #aa0;
-	text-align: center;
-
-	font-family: monospace;
-
+  padding: 5px;
+  margin: 5px 0;
+  background: #222;
+  border: 1px dotted #aaa;
+  font-size: 1.5em;
+  color: #aa0;
+  text-align: center;
+  font-family: monospace;
 }
 
+/* line 327, scss/sm.scss */
 #turncounters {
-
-	border-bottom: 1px dotted #aaa;
-	padding: 0 0 5px; 
-
-	font-size: 0.7em;
-	text-transform: uppercase;
-
+  border-bottom: 1px dotted #aaa;
+  padding: 5px 0;
+  font-size: 0.7em;
+  text-transform: uppercase;
 }
-
-
+/* line 335, scss/sm.scss */
 #turncounters strong {
-	color: #fff;
+  color: #fff;
 }
-
+/* line 339, scss/sm.scss */
 #turncounters #turn {
-	width: 50%; 
-	float: left;
+  width: 50%;
+  float: left;
 }
-
+/* line 344, scss/sm.scss */
 #turncounters #actions {
-	width: 50%;
-	float: right;
-	text-align: right;
+  width: 50%;
+  float: right;
+  text-align: right;
 }
 
+/* line 353, scss/sm.scss */
 #nextchipqueue {
-	background: #222;
-	height: 53px;
-	margin-bottom: 5px;
-
-} 
-
+  background: #222;
+  height: 53px;
+  margin-bottom: 5px;
+}
+/* line 358, scss/sm.scss */
 #nextchipqueue span {
-	display: inline-block;
-	padding: 2px 5px;
-
-	font-size: 0.5em;
-	text-transform: uppercase;
-	background: #aa0;
-	color: #333;
+  display: inline-block;
+  padding: 2px 5px;
+  font-size: 0.5em;
+  text-transform: uppercase;
+  background: #aa0;
+  color: #333;
 }
-
+/* line 368, scss/sm.scss */
 #nextchipqueue > div {
-
-	position: relative;
-	float: left;
-
-	width: 40px; height: 40px;
-	padding: 3px;
-	border: 1px solid #222;
-	background: #222;
-
+  position: relative;
+  float: left;
+  width: 40px;
+  height: 40px;
+  padding: 3px;
+  border: 1px solid #222;
+  background: #222;
 }
-
+/* line 378, scss/sm.scss */
 #nextchipqueue > div.next-0 {
-	border-color: #aa0;
+  border-color: #aa0;
 }
-
+/* line 382, scss/sm.scss */
 #nextchipqueue > div:after {
-	position: absolute;
-	top: 4px; left: 4px;
-	display: block;
-	width: 30px; height: 30px;
-	content: "";
-
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  display: block;
+  width: 30px;
+  height: 30px;
+  content: "";
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+/* line 395, scss/sm.scss */
+#nextchipqueue > div.chip-0:after {
+  background: #aaa;
+}
+/* line 398, scss/sm.scss */
+#nextchipqueue > div.chip-1:after {
+  background: #b88a00;
+  color: #8f6b00;
+}
+/* line 398, scss/sm.scss */
+#nextchipqueue > div.chip-2:after {
+  background: #3366ff;
+  color: #0a47ff;
+}
+/* line 398, scss/sm.scss */
+#nextchipqueue > div.chip-3:after {
+  background: #f5b800;
+  color: #cc9900;
+}
+/* line 398, scss/sm.scss */
+#nextchipqueue > div.chip-4:after {
+  background: #ff33cc;
+  color: #ff0ac2;
+}
+/* line 398, scss/sm.scss */
+#nextchipqueue > div.chip-5:after {
+  background: #002eb8;
+  color: #00248f;
+}
+/* line 398, scss/sm.scss */
+#nextchipqueue > div.chip-6:after {
+  background: #ffcc33;
+  color: #ffc20a;
+}
+/* line 398, scss/sm.scss */
+#nextchipqueue > div.chip-7:after {
+  background: #ff6633;
+  color: #ff470a;
+}
+/* line 398, scss/sm.scss */
+#nextchipqueue > div.chip-8:after {
+  background: #33ff66;
+  color: #0aff47;
+}
+/* line 398, scss/sm.scss */
+#nextchipqueue > div.chip-9:after {
+  background: #ccff33;
+  color: #c2ff0a;
 }
 
-
-#nextchipqueue > div.chip-0:after { background: #aaa; }
-#nextchipqueue > div.chip-1:after { background: #aa0; }
-#nextchipqueue > div.chip-2:after { background: #00a; }
-#nextchipqueue > div.chip-3:after { background: #0a0; }
-#nextchipqueue > div.chip-4:after { background: #a00; }
-
-
-
+/* line 411, scss/sm.scss */
 #turncounters:after,
 #nextchipqueue:after {
-	content: "";
-	display: block;
-	clear: both;
-	width: 100%;
-	height: 1px;
+  content: "";
+  display: block;
+  clear: both;
+  width: 100%;
+  height: 1px;
 }
 
-
-
+/* line 422, scss/sm.scss */
 .chipvaluecontainer {
-	border: 1px solid #555;
-	background: #222;
-	width: 100%;
-	padding: 5px;
+  border: 1px solid #555;
+  background: #222;
+  width: 100%;
+  padding: 5px;
 }
-
-.chipvaluecontainer > * { display: inline-block; margin: 0 5px 0 0; }
-
+/* line 428, scss/sm.scss */
+.chipvaluecontainer > * {
+  display: inline-block;
+  margin: 0 5px 0 0;
+}
+/* line 429, scss/sm.scss */
 .chipvaluecontainer > *:first-child {
-	width: 1em; height: 1em;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	border-radius: 2px;	
-
+  width: 1em;
+  height: 1em;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
 }
-
-.chipvaluecontainer .chip-1 { background: #aa0; }
-.chipvaluecontainer .chip-2 { background: #00a; }
-.chipvaluecontainer .chip-3 { background: #0a0; }
-.chipvaluecontainer .chip-4 { background: #a00; }
-
+/* line 437, scss/sm.scss */
+.chipvaluecontainer.chip-1 {
+  background: #b88a00;
+  color: #8f6b00;
+}
+/* line 437, scss/sm.scss */
+.chipvaluecontainer.chip-2 {
+  background: #3366ff;
+  color: #0a47ff;
+}
+/* line 437, scss/sm.scss */
+.chipvaluecontainer.chip-3 {
+  background: #f5b800;
+  color: #cc9900;
+}
+/* line 437, scss/sm.scss */
+.chipvaluecontainer.chip-4 {
+  background: #ff33cc;
+  color: #ff0ac2;
+}
+/* line 437, scss/sm.scss */
+.chipvaluecontainer.chip-5 {
+  background: #002eb8;
+  color: #00248f;
+}
+/* line 437, scss/sm.scss */
+.chipvaluecontainer.chip-6 {
+  background: #ffcc33;
+  color: #ffc20a;
+}
+/* line 437, scss/sm.scss */
+.chipvaluecontainer.chip-7 {
+  background: #ff6633;
+  color: #ff470a;
+}
+/* line 437, scss/sm.scss */
+.chipvaluecontainer.chip-8 {
+  background: #33ff66;
+  color: #0aff47;
+}
+/* line 437, scss/sm.scss */
+.chipvaluecontainer.chip-9 {
+  background: #ccff33;
+  color: #c2ff0a;
+}
+/* line 443, scss/sm.scss */
 .chipvaluecontainer .chipcount {
-	color: #fff;
-	font-weight: bold;
-	padding-left: 5px;
-	border-left: 1px dotted #555;
+  color: #fff;
+  font-weight: bold;
+  padding-left: 5px;
+  border-left: 1px dotted #555;
 }
-
-
-.chipvaluecontainer .chipvalue {
-	width: 4em;
-	font-family: monospace;
-	font-size: 1em;
-	text-align: right;
-}
-
-
+/* line 449, scss/sm.scss */
 .chipvaluecontainer .chipcount:before {
-	content: "CNT ";
-	font-size: 0.5em;
+  content: "CNT ";
+  font-size: 0.5em;
 }
+/* line 456, scss/sm.scss */
+.chipvaluecontainer .chipvalue {
+  width: 4em;
+  font-family: monospace;
+  font-size: 1.2em;
+  text-align: right;
+}
+
+/* line 467, scss/sm.scss */
+.button {
+  display: inline-block;
+  float: right;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #ccc;
+  padding: 0.2em 0.5em;
+  border: 1px solid #ccc;
+}
+
+/* intro screen */
+/* line 491, scss/sm.scss */
+.gametitle h1, .gametitle h2 {
+  text-align: center;
+}
+/* line 494, scss/sm.scss */
+.gametitle h1 {
+  font-size: 3.5em;
+}
+
+/* line 499, scss/sm.scss */
+.gameoptions, .actionbutton {
+  font-size: 2em;
+  width: 80%;
+  margin: 2em auto;
+}
+
+/* line 505, scss/sm.scss */
+.gameoptions input {
+  display: inline;
+  font-size: 1em;
+}
+
+/* line 510, scss/sm.scss */
+.actionbutton {
+  border: 1px solid #000;
+  padding: 0.5em;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+}
+/* line 518, scss/sm.scss */
+.actionbutton:hover {
+  background: #fff;
+}
+
+/*# sourceMappingURL=sm.css.map */

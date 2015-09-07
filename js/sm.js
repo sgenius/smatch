@@ -88,11 +88,20 @@ var SM = (function() {
 		var _maxTurns = 12;
 
 
-		// current turn
+		// the game is time-based? false for turn-based
+		var _isTurnBased = true;
+
+
+		// current turn, if the game is turn-based
 		var _currentTurn = 0;
 
 		// current action in this turn
 		var _currentAction = 0;
+
+
+		// minutes per play, if the game is time-based
+		var _maxMinutes = 3;
+
 
 		// How many players are there in this game
 		var _numberOfPlayers = 1;
@@ -120,6 +129,71 @@ var SM = (function() {
 
 
 		// private methods and classes
+
+		/*
+		 * The chiptype and chip classes are not used yet. These are foundational classes for a further refinement
+		 * of the application. They will be needed to implement the full array of features I want to introduce in the
+		 * first non-beta version of the game.
+		 */
+
+
+		/**
+		 * The chip type class
+		 * I was resisting to do this one, but... in the end, I do need it.
+		 * Handles the characteristics of a chip type, including (nominally) render characteristics. 
+		 * This data is to be received from a server.
+		 *
+		 * @param {number} code - a positive integer, or a string representing one, to be used as a UID; required.
+		 * @param {string} fgcolor - nominally, the foreground color to use in drawing the chip. Should be a valid css color.
+		 * @param {string} bgcolor - nominally, the background color to use in drawing the chip. Should be a valid css color.
+		 * @param {string} symbol - a one-char string; this char is to be used (nominally) during drawing, 
+		 * 		as a distinctive symbol on the chip.
+		 * @param {string} name - a string; anything goes (for now).
+		 * @param {string} description - a string. Possibly this will accept MarkDown in the future.
+		 * @param {number} varianttable - an array, empty by default. If there is more than one item in this array, they will be
+		 *		used as probability values to generate variant styles of this chip type.
+		 * @param {number} multipliertable - an array, empty by default. If there is more than one item in this array, they will
+		 * 		be used as probability values to generate multipliers.
+		 */
+
+		function _ChipType(code, fgcolor, bgcolor, symbol, name, description, variantttable, multipliertable, algorithmtype, algorithmmatrix){
+
+			if(!code) { return false; }
+			code = parseInt(code);
+			if(code == 0) { return false; }
+			if(isNan(code)) { return false; }
+			this.code = code;
+
+			this.fgcolor = fgcolor || "#ffffff";
+			this.bgcolor = bgcolor || "#333333";
+
+			if(typeof symbol != "string") { symbol = ""; }
+			if(symbol.length > 1) { symbol = symbol.substr(0, 1); }
+
+			this.symbol = symbol || "";
+			this.name = name;
+			this.description = description;
+
+			this.variantttable = varianttable || [];
+
+			this.maxmultipliers = maxmultipliers || 1;
+			this.algorithmtype = algorithmtype || "random";
+			this.algorithmmatrix = algorithmmatrix || [];
+
+		}
+
+
+
+
+
+		// the chip class
+		// represents a single chip, either in the board or in the next chip queue.
+
+		function _Chip(type, variant, multiplier) {
+
+		}
+
+
 
 
 		//         ██████╗  ██████╗  █████╗ ██████╗ ██████╗ 
@@ -624,6 +698,7 @@ var SM = (function() {
 
 
 		function _Player(actionsperturn, maxchips, chipbasevalue, chipbaseprobability, ncqlength) {
+
 			this.name = "nyan";
 
 			this.actionsPerTurn = actionsperturn < 1 ? 1 : actionsperturn; // how many actions has this player per turn, initially
@@ -749,6 +824,7 @@ var SM = (function() {
 		 * @returns true on success
 		 */
 		_Player.prototype.addToChipCount = function(type, howmany) {
+
 			if(typeof type == "string") { type = parseInt(type, 10); }
 			if(typeof howmany == "string") { type = parseInt(howmany, 10); }
 
@@ -850,11 +926,31 @@ var SM = (function() {
 			return nextChip;
 		}
 
+		/**
+		 * Sells the accumulated chips of a certain type. 
+		 * @param {number} chipType
+		 * @returns true on success
+		 */
+
+		_Player.prototype.sellChips = function(chipType) {
+
+			chipType = parseInt(chipType, 10);
+			if(chipType < 1 || chipType > _maxChips) { return false; }
+
+			this.points += this.chipCount[chipType] * this.chipbasevalue[chipType];
+			this.chipCount[chipType] = 0;
+
+			return true;
+		};
+
 
 
 
 		// ════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 		// plain SM.init continues
+
+
+
 
 
 
@@ -891,8 +987,6 @@ var SM = (function() {
 
 		// methods of the game itself
 
-		
-
 
 
 
@@ -918,6 +1012,10 @@ var SM = (function() {
 			numRows: _numRows,
 			numCols: _numCols,
 
+			isTurnBased: function() {
+				return _isTurnBased;
+			},
+
 			/**
 			 * Returns a cell.
 			 * @param {number} row
@@ -926,7 +1024,7 @@ var SM = (function() {
 			 */
 
 			getCell: function(row, col) {
-				// console.log("sm.getCell > _row, col: ", row, ", ", col);
+			 	// console.log("sm.getCell > _row, col: ", row, ", ", col);
 				return _board.getCell(row, col);
 			},
 
@@ -1029,6 +1127,18 @@ var SM = (function() {
 
 			getMaxTurns: function() {
 				return _maxTurns;
+			},
+
+			sellChips: function(chipType) {
+				return _players[_currentPlayer].sellChips(chipType);
+			},
+
+			setMaxMinutes: function(mins) {
+				_maxMinutes = mins;
+			},
+
+			getMaxMinutes: function(){
+				return _maxMinutes;
 			},
 
 			// countRemainingChips: function() {
