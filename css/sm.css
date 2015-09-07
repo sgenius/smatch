@@ -74,27 +74,28 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0;
-  -webkit-transition: opacity 1s ease-in-out;
-  -moz-transition: opacity 1s ease-in-out;
-  -o-transition: opacity 1s ease-in-out;
-  transition: opacity 1s ease-in-out;
+  display: none;
+  -webkit-transition: opacity 0.5s ease-in-out;
+  -moz-transition: opacity 0.5s ease-in-out;
+  -o-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
 }
 
 /* line 59, scss/sm.scss */
 .activepage {
-  opacity: 1;
+  display: block;
+  z-index: 1000;
 }
 
 /* main screen */
-/* line 66, scss/sm.scss */
+/* line 67, scss/sm.scss */
 #container {
   width: 100%;
   height: 100%;
   position: relative;
 }
 
-/* line 72, scss/sm.scss */
+/* line 73, scss/sm.scss */
 #boardarea {
   position: absolute;
   top: 0;
@@ -106,17 +107,17 @@ body {
   overflow: scroll;
 }
 
-/* line 89, scss/sm.scss */
+/* line 90, scss/sm.scss */
 #board {
   position: relative;
-  margin: 5px;
+  margin: 5px auto;
   background: #342A21;
   width: 540px;
   height: 540px;
   font-family: Arial, sans-serif;
 }
 
-/* line 103, scss/sm.scss */
+/* line 104, scss/sm.scss */
 .cell {
   width: 58px;
   height: 58px;
@@ -134,12 +135,12 @@ body {
   /* Reserved for selections */
   /* contiguous cells */
 }
-/* line 123, scss/sm.scss */
+/* line 124, scss/sm.scss */
 .cell.available {
   background-color: #001024;
   cursor: pointer;
 }
-/* line 129, scss/sm.scss */
+/* line 130, scss/sm.scss */
 .cell.chip > span {
   position: relative;
   margin-left: 10%;
@@ -152,11 +153,11 @@ body {
   border-radius: 10px;
   border-bottom: 2px solid #333;
 }
-/* line 145, scss/sm.scss */
+/* line 146, scss/sm.scss */
 .cell.chip > span:hover {
   opacity: 0.9;
 }
-/* line 149, scss/sm.scss */
+/* line 150, scss/sm.scss */
 .cell.chip > span:before {
   position: absolute;
   top: 50%;
@@ -172,7 +173,7 @@ body {
   /*background: url(../images/symbols.png) no-repeat;*/
   cursor: pointer;
 }
-/* line 174, scss/sm.scss */
+/* line 175, scss/sm.scss */
 .cell:before {
   position: absolute;
   top: 0px;
@@ -184,33 +185,33 @@ body {
   z-index: 1;
   cursor: pointer;
 }
-/* line 184, scss/sm.scss */
+/* line 185, scss/sm.scss */
 .cell.selection-1:before {
   border: 3px solid #ff0;
 }
-/* line 191, scss/sm.scss */
+/* line 192, scss/sm.scss */
 .cell.contiguous:hover:before, .cell.tmprange.contiguous:hover:before {
   /*background: rgba(0, 255, 128, 0.2);*/
   border: 3px dashed #ff0;
 }
-/* line 197, scss/sm.scss */
+/* line 198, scss/sm.scss */
 .cell.available:hover:before {
   border: 3px dotted rgba(255, 255, 0, 0.7);
 }
-/* line 201, scss/sm.scss */
+/* line 202, scss/sm.scss */
 .cell.range:hover:before {
   border: 3px dotted #ff0;
 }
-/* line 207, scss/sm.scss */
+/* line 208, scss/sm.scss */
 .cell.tmprange:before, .cell.available.tmprange:before {
   border: 1px dotted #ff0;
 }
-/* line 210, scss/sm.scss */
+/* line 211, scss/sm.scss */
 .cell.tmprange.invalidrange:before, .cell.available.tmprange.invalidrange:before {
   border: 1px dotted #f00;
 }
 
-/* line 220, scss/sm.scss */
+/* line 221, scss/sm.scss */
 .starter:after {
   position: absolute;
   top: 50%;
@@ -224,167 +225,167 @@ body {
 }
 
 /* chip rendering */
-/* line 236, scss/sm.scss */
+/* line 237, scss/sm.scss */
 .chip-0 {
   background: #aaa;
   color: #000;
 }
 
-/* line 240, scss/sm.scss */
+/* line 241, scss/sm.scss */
 .chip > span.chip-0:before {
   content: '';
 }
 
-/* line 246, scss/sm.scss */
+/* line 247, scss/sm.scss */
 .chip-1 {
   background: #b88a00;
   color: #8f6b00;
 }
-/* line 249, scss/sm.scss */
+/* line 250, scss/sm.scss */
 .chip-1 > span {
   border-bottom: 2px solid #664d00;
 }
 
-/* line 253, scss/sm.scss */
+/* line 254, scss/sm.scss */
 .chip > span.chip-1:before {
   content: "★";
 }
 
-/* line 246, scss/sm.scss */
+/* line 247, scss/sm.scss */
 .chip-2 {
   background: #3366ff;
   color: #0a47ff;
 }
-/* line 249, scss/sm.scss */
+/* line 250, scss/sm.scss */
 .chip-2 > span {
   border-bottom: 2px solid #0038e0;
 }
 
-/* line 253, scss/sm.scss */
+/* line 254, scss/sm.scss */
 .chip > span.chip-2:before {
   content: "●";
 }
 
-/* line 246, scss/sm.scss */
+/* line 247, scss/sm.scss */
 .chip-3 {
   background: #f5b800;
   color: #cc9900;
 }
-/* line 249, scss/sm.scss */
+/* line 250, scss/sm.scss */
 .chip-3 > span {
   border-bottom: 2px solid #a37b00;
 }
 
-/* line 253, scss/sm.scss */
+/* line 254, scss/sm.scss */
 .chip > span.chip-3:before {
   content: "▲";
 }
 
-/* line 246, scss/sm.scss */
+/* line 247, scss/sm.scss */
 .chip-4 {
   background: #ff33cc;
   color: #ff0ac2;
 }
-/* line 249, scss/sm.scss */
+/* line 250, scss/sm.scss */
 .chip-4 > span {
   border-bottom: 2px solid #e000a8;
 }
 
-/* line 253, scss/sm.scss */
+/* line 254, scss/sm.scss */
 .chip > span.chip-4:before {
   content: "❤";
 }
 
-/* line 246, scss/sm.scss */
+/* line 247, scss/sm.scss */
 .chip-5 {
   background: #002eb8;
   color: #00248f;
 }
-/* line 249, scss/sm.scss */
+/* line 250, scss/sm.scss */
 .chip-5 > span {
   border-bottom: 2px solid #001a66;
 }
 
-/* line 253, scss/sm.scss */
+/* line 254, scss/sm.scss */
 .chip > span.chip-5:before {
   content: "♥";
 }
 
-/* line 246, scss/sm.scss */
+/* line 247, scss/sm.scss */
 .chip-6 {
   background: #ffcc33;
   color: #ffc20a;
 }
-/* line 249, scss/sm.scss */
+/* line 250, scss/sm.scss */
 .chip-6 > span {
   border-bottom: 2px solid #e0a800;
 }
 
-/* line 253, scss/sm.scss */
+/* line 254, scss/sm.scss */
 .chip > span.chip-6:before {
   content: "☽";
 }
 
-/* line 246, scss/sm.scss */
+/* line 247, scss/sm.scss */
 .chip-7 {
   background: #ff6633;
   color: #ff470a;
 }
-/* line 249, scss/sm.scss */
+/* line 250, scss/sm.scss */
 .chip-7 > span {
   border-bottom: 2px solid #e03800;
 }
 
-/* line 253, scss/sm.scss */
+/* line 254, scss/sm.scss */
 .chip > span.chip-7:before {
   content: "陰";
 }
 
-/* line 246, scss/sm.scss */
+/* line 247, scss/sm.scss */
 .chip-8 {
   background: #33ff66;
   color: #0aff47;
 }
-/* line 249, scss/sm.scss */
+/* line 250, scss/sm.scss */
 .chip-8 > span {
   border-bottom: 2px solid #00e038;
 }
 
-/* line 253, scss/sm.scss */
+/* line 254, scss/sm.scss */
 .chip > span.chip-8:before {
   content: "頤";
 }
 
-/* line 246, scss/sm.scss */
+/* line 247, scss/sm.scss */
 .chip-9 {
   background: #ccff33;
   color: #c2ff0a;
 }
-/* line 249, scss/sm.scss */
+/* line 250, scss/sm.scss */
 .chip-9 > span {
   border-bottom: 2px solid #a8e000;
 }
 
-/* line 253, scss/sm.scss */
+/* line 254, scss/sm.scss */
 .chip > span.chip-9:before {
   content: "頧";
 }
 
 /* pseudocursor */
-/* line 261, scss/sm.scss */
+/* line 262, scss/sm.scss */
 #cursor {
   position: absolute;
   width: 20px;
   height: 20px;
 }
 
-/* line 271, scss/sm.scss */
+/* line 272, scss/sm.scss */
 #subwindow {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  bottom: 0;
+  right: 0;
   z-index: 100;
-  width: 250px;
+  width: 100%;
   margin: 0;
   padding: 5px;
   border: 3px solid #000;
@@ -395,14 +396,14 @@ body {
   border-radius: 4px;
 }
 
-/* line 294, scss/sm.scss */
+/* line 296, scss/sm.scss */
 #playerid {
   width: 100%;
   font-size: 1.2em;
   background: #222;
 }
 
-/* line 301, scss/sm.scss */
+/* line 303, scss/sm.scss */
 #playernumber {
   display: inline-block;
   background: #ccc;
@@ -410,13 +411,13 @@ body {
   padding: 5px;
 }
 
-/* line 307, scss/sm.scss */
+/* line 309, scss/sm.scss */
 #playername {
   display: inline;
   padding: 5px;
 }
 
-/* line 312, scss/sm.scss */
+/* line 314, scss/sm.scss */
 #playerpoints {
   padding: 5px;
   margin: 5px 0;
@@ -428,45 +429,50 @@ body {
   font-family: monospace;
 }
 
-/* line 327, scss/sm.scss */
+/* line 329, scss/sm.scss */
 #turncounters {
   border-bottom: 1px dotted #aaa;
   padding: 5px 0;
   font-size: 0.7em;
   text-transform: uppercase;
 }
-/* line 335, scss/sm.scss */
+/* line 337, scss/sm.scss */
 #turncounters strong {
   color: #fff;
 }
-/* line 339, scss/sm.scss */
+/* line 341, scss/sm.scss */
 #turncounters #turn {
   width: 50%;
   float: left;
 }
-/* line 344, scss/sm.scss */
+/* line 346, scss/sm.scss */
 #turncounters #actions {
   width: 50%;
   float: right;
   text-align: right;
 }
 
-/* line 353, scss/sm.scss */
+/* line 355, scss/sm.scss */
 #nextchipqueue {
+  position: relative;
   background: #222;
-  height: 53px;
+  height: 40px;
   margin-bottom: 5px;
 }
-/* line 358, scss/sm.scss */
+/* line 361, scss/sm.scss */
 #nextchipqueue span {
+  position: absolute;
+  left: 0;
+  top: 0;
   display: inline-block;
   padding: 2px 5px;
   font-size: 0.5em;
   text-transform: uppercase;
   background: #aa0;
   color: #333;
+  z-index: 10;
 }
-/* line 368, scss/sm.scss */
+/* line 376, scss/sm.scss */
 #nextchipqueue > div {
   position: relative;
   float: left;
@@ -476,11 +482,11 @@ body {
   border: 1px solid #222;
   background: #222;
 }
-/* line 378, scss/sm.scss */
+/* line 386, scss/sm.scss */
 #nextchipqueue > div.next-0 {
   border-color: #aa0;
 }
-/* line 382, scss/sm.scss */
+/* line 390, scss/sm.scss */
 #nextchipqueue > div:after {
   position: absolute;
   top: 4px;
@@ -493,57 +499,57 @@ body {
   -moz-border-radius: 5px;
   border-radius: 5px;
 }
-/* line 395, scss/sm.scss */
+/* line 403, scss/sm.scss */
 #nextchipqueue > div.chip-0:after {
   background: #aaa;
 }
-/* line 398, scss/sm.scss */
+/* line 406, scss/sm.scss */
 #nextchipqueue > div.chip-1:after {
   background: #b88a00;
   color: #8f6b00;
 }
-/* line 398, scss/sm.scss */
+/* line 406, scss/sm.scss */
 #nextchipqueue > div.chip-2:after {
   background: #3366ff;
   color: #0a47ff;
 }
-/* line 398, scss/sm.scss */
+/* line 406, scss/sm.scss */
 #nextchipqueue > div.chip-3:after {
   background: #f5b800;
   color: #cc9900;
 }
-/* line 398, scss/sm.scss */
+/* line 406, scss/sm.scss */
 #nextchipqueue > div.chip-4:after {
   background: #ff33cc;
   color: #ff0ac2;
 }
-/* line 398, scss/sm.scss */
+/* line 406, scss/sm.scss */
 #nextchipqueue > div.chip-5:after {
   background: #002eb8;
   color: #00248f;
 }
-/* line 398, scss/sm.scss */
+/* line 406, scss/sm.scss */
 #nextchipqueue > div.chip-6:after {
   background: #ffcc33;
   color: #ffc20a;
 }
-/* line 398, scss/sm.scss */
+/* line 406, scss/sm.scss */
 #nextchipqueue > div.chip-7:after {
   background: #ff6633;
   color: #ff470a;
 }
-/* line 398, scss/sm.scss */
+/* line 406, scss/sm.scss */
 #nextchipqueue > div.chip-8:after {
   background: #33ff66;
   color: #0aff47;
 }
-/* line 398, scss/sm.scss */
+/* line 406, scss/sm.scss */
 #nextchipqueue > div.chip-9:after {
   background: #ccff33;
   color: #c2ff0a;
 }
 
-/* line 411, scss/sm.scss */
+/* line 419, scss/sm.scss */
 #turncounters:after,
 #nextchipqueue:after {
   content: "";
@@ -553,19 +559,20 @@ body {
   height: 1px;
 }
 
-/* line 422, scss/sm.scss */
+/* line 430, scss/sm.scss */
 .chipvaluecontainer {
   border: 1px solid #555;
   background: #222;
-  width: 100%;
+  width: 25%;
   padding: 5px;
+  float: left;
 }
-/* line 428, scss/sm.scss */
+/* line 438, scss/sm.scss */
 .chipvaluecontainer > * {
   display: inline-block;
   margin: 0 5px 0 0;
 }
-/* line 429, scss/sm.scss */
+/* line 439, scss/sm.scss */
 .chipvaluecontainer > *:first-child {
   width: 1em;
   height: 1em;
@@ -573,64 +580,64 @@ body {
   -moz-border-radius: 2px;
   border-radius: 2px;
 }
-/* line 437, scss/sm.scss */
+/* line 447, scss/sm.scss */
 .chipvaluecontainer.chip-1 {
   background: #b88a00;
   color: #8f6b00;
 }
-/* line 437, scss/sm.scss */
+/* line 447, scss/sm.scss */
 .chipvaluecontainer.chip-2 {
   background: #3366ff;
   color: #0a47ff;
 }
-/* line 437, scss/sm.scss */
+/* line 447, scss/sm.scss */
 .chipvaluecontainer.chip-3 {
   background: #f5b800;
   color: #cc9900;
 }
-/* line 437, scss/sm.scss */
+/* line 447, scss/sm.scss */
 .chipvaluecontainer.chip-4 {
   background: #ff33cc;
   color: #ff0ac2;
 }
-/* line 437, scss/sm.scss */
+/* line 447, scss/sm.scss */
 .chipvaluecontainer.chip-5 {
   background: #002eb8;
   color: #00248f;
 }
-/* line 437, scss/sm.scss */
+/* line 447, scss/sm.scss */
 .chipvaluecontainer.chip-6 {
   background: #ffcc33;
   color: #ffc20a;
 }
-/* line 437, scss/sm.scss */
+/* line 447, scss/sm.scss */
 .chipvaluecontainer.chip-7 {
   background: #ff6633;
   color: #ff470a;
 }
-/* line 437, scss/sm.scss */
+/* line 447, scss/sm.scss */
 .chipvaluecontainer.chip-8 {
   background: #33ff66;
   color: #0aff47;
 }
-/* line 437, scss/sm.scss */
+/* line 447, scss/sm.scss */
 .chipvaluecontainer.chip-9 {
   background: #ccff33;
   color: #c2ff0a;
 }
-/* line 443, scss/sm.scss */
+/* line 453, scss/sm.scss */
 .chipvaluecontainer .chipcount {
   color: #fff;
   font-weight: bold;
   padding-left: 5px;
   border-left: 1px dotted #555;
 }
-/* line 449, scss/sm.scss */
+/* line 459, scss/sm.scss */
 .chipvaluecontainer .chipcount:before {
   content: "CNT ";
   font-size: 0.5em;
 }
-/* line 456, scss/sm.scss */
+/* line 466, scss/sm.scss */
 .chipvaluecontainer .chipvalue {
   width: 4em;
   font-family: monospace;
@@ -638,7 +645,7 @@ body {
   text-align: right;
 }
 
-/* line 467, scss/sm.scss */
+/* line 477, scss/sm.scss */
 .button {
   display: inline-block;
   float: right;
@@ -653,29 +660,29 @@ body {
 }
 
 /* intro screen */
-/* line 491, scss/sm.scss */
+/* line 501, scss/sm.scss */
 .gametitle h1, .gametitle h2 {
   text-align: center;
 }
-/* line 494, scss/sm.scss */
+/* line 504, scss/sm.scss */
 .gametitle h1 {
   font-size: 3.5em;
 }
 
-/* line 499, scss/sm.scss */
+/* line 509, scss/sm.scss */
 .gameoptions, .actionbutton {
   font-size: 2em;
   width: 80%;
   margin: 2em auto;
 }
 
-/* line 505, scss/sm.scss */
+/* line 515, scss/sm.scss */
 .gameoptions input {
   display: inline;
   font-size: 1em;
 }
 
-/* line 510, scss/sm.scss */
+/* line 520, scss/sm.scss */
 .actionbutton {
   border: 1px solid #000;
   padding: 0.5em;
@@ -683,7 +690,7 @@ body {
   text-align: center;
   cursor: pointer;
 }
-/* line 518, scss/sm.scss */
+/* line 528, scss/sm.scss */
 .actionbutton:hover {
   background: #fff;
 }
