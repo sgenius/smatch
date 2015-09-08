@@ -67,6 +67,8 @@ The following adaptations are in effect:
 - Created *timer*. 
 - A basic *game cycle* is now set. There's an initial screen to configure gameplay length, then the main game screen, then a *final screen* shown when the time's up. From here the game can restart. Reconfigure and then restart is not working properly yet.
 
+For now the games will only last 5 secs; this is to test the game cycle.
+
 #### In progress
 - I just figured out that I never modeled data initialization around screens. I might need to reconfigure some code in order to modularize this. It'll be needed when (eventually) more screens are added to the app flux.
 - Chip types, algorithms, and so on.
