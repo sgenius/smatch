@@ -390,6 +390,22 @@ var SM = (function() {
 		}
 
 
+		_Board.prototype.generateStarterChips = function() {
+			var newChip;
+			for(var m = 0; m <= _numRows; m++) {
+				for(var n = 0; n <= _numCols; n++) {
+					if(_board.cellIsStarting(m, n)) {
+						console.log("_Board.generateStarterChips > cell ", m, ", ", n, " is a starting cell");
+						newChip = _players[_currentPlayer].generateChip();
+						console.log("_Board.generateStarterChips > will attempt to put a chip of type ", newChip);
+						_board.putChipInCell(m, n, newChip, true);
+					}
+				}
+			}
+		}
+
+
+
 		// gets the value of the chip in [row,col], -1 if there's no chip, or false if any value is not valid
 		_Board.prototype.getChipValue = function(row, col){
 			return this.cellHasChip(row,col) ? this.board[row][col].chip : false;
@@ -966,20 +982,7 @@ var SM = (function() {
 
 		// board initialization
 		_board = new _Board(_numRows, _numCols, _maxChips, _JSON_board);
-
-		// for the starter chips, use the first player's chip probabilities
-		var newChip;
-		for(var m = 0; m <= _numRows; m++) {
-			for(var n = 0; n <= _numCols; n++) {
-				if(_board.cellIsStarting(m, n)) {
-					console.log("_board > cell ", m, ", ", n, " is a starting cell");
-					newChip = _players[_currentPlayer].generateChip();
-					console.log("_board > will attempt to put a chip of type ", newChip);
-					_board.putChipInCell(m, n, newChip, true);
-				}
-			}
-		}
-
+		_board.generateStarterChips();
 
 		// ════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 
@@ -987,6 +990,33 @@ var SM = (function() {
 		// methods of the game itself
 
 
+		/**
+		 * (Re)initializes a game with the current parameters, cleaning up the board and the score,
+		 * but preserving other data.
+		 */
+ 
+		_reInitSame = function() {
+			
+			// for now this implies re-creating the board 
+			// later on, this might have further implications, such as grabbing a 
+			// new JSON_board.
+
+			_board = undefined;
+			_board = new _Board(_numRows, _numCols, _maxChips, _JSON_board);
+			_board.generateStarterChips();
+
+
+			// the idea is to reuse some player data (useful if using sessions) but for now,
+			// just recreate all the players.
+
+			_players = undefined;
+			_players = new Array();
+			for (i = 0; i < _numberOfPlayers; i++) {
+				_players.push(new _Player(_MAXACTIONS, _maxChips, _chipBaseValue, _chipBaseProbability, _NCQLength));	
+				_players[i].initNCQ();	
+			};
+
+		};
 
 
 
@@ -1134,6 +1164,10 @@ var SM = (function() {
 
 			isTurnBased: function() {
 				return _isTurnBased;
+			},
+
+			reInitSame: function() {
+				return _reInitSame();
 			},
 
 			// countRemainingChips: function() {

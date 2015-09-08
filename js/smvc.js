@@ -122,7 +122,7 @@ SMVC.VC = function() {
 SMVC.VC.prototype.activatePage = function(pageToShow) {
 	var pts = $(pageToShow);
 
-	console.log("VC.activatePage > page to show: ", pts);
+	// console.log("VC.activatePage > page to show: ", pts);
 
 	if(!(pts).hasClass("page")) { return false; }
 	// $(".activepage").hide().removeClass("activepage");
@@ -449,8 +449,8 @@ SMVC.VC.prototype.getCellClick = function(event) {
 	// If there is no cell object (eg. the class is invalid, etc.) return false.
 	if(!currentCell) { return false; }
 
-	console.log("VC.getCellClick > currentDiv: ", currentDiv);
-	console.log("VC.getCellClick > SMVC._cellInteractionState: ", SMVC._cellInteractionState);
+	// console.log("VC.getCellClick > currentDiv: ", currentDiv);
+	// console.log("VC.getCellClick > SMVC._cellInteractionState: ", SMVC._cellInteractionState);
 
 	switch(SMVC._cellInteractionState) {
 		case SMVC._CELLINTERACTION_INHIBITED: return false; break;
@@ -462,7 +462,7 @@ SMVC.VC.prototype.getCellClick = function(event) {
 
 			// If the current cell is available...
 			if(SMVC.sm.cellIsAvailable(currentCoords.row, currentCoords.col)) {
-				console.log("VC.getCellClick > about to call putChipInCell");
+				// console.log("VC.getCellClick > about to call putChipInCell");
 
 				vc.putChipInCell(currentCoords.row, currentCoords.col);
 			} else {
@@ -493,13 +493,13 @@ SMVC.VC.prototype.getCellClick = function(event) {
 					if(vc.rangeIsValid()) {
 						// check if the range contains a match; if so, score
 						if(vc.rangeMatchesSameType()) {
-							console.log("VC.getCellClick > RANGE MATCHES!!!!!!!");
+							// console.log("VC.getCellClick > RANGE MATCHES!!!!!!!");
 							vc.solveRange();
 						}
 					}
 
 					// in any case, destroy the selection now.
-					console.log("VC.getCellClick > about to call unselectAllCells()");
+					// console.log("VC.getCellClick > about to call unselectAllCells()");
 					vc.unselectAllCells();
 
 				}
@@ -543,7 +543,7 @@ SMVC.VC.prototype.initializeGame = function() {
 
 	SMVC._secondsLeft = SMVC._maxSeconds;
 
-	console.log("VC.initializeGame > SVMC._secondsLeft: ", SMVC._secondsLeft);
+	// console.log("VC.initializeGame > SVMC._secondsLeft: ", SMVC._secondsLeft);
 
 	SMVC._secondsTimer = window.setTimeout(vc.doSecondsUpdate(), 1000);
 
@@ -654,12 +654,12 @@ SMVC.VC.prototype.putChipInCell = function(row, col) {
 	// get the current player's next chip from his next chip queue, put it in the current cell
 
 	var theChip = SMVC.sm.getCurrentPlayerNextChip();
-	console.log("VC.putChipInCell > chip to put: ", theChip);
+	// console.log("VC.putChipInCell > chip to put: ", theChip);
 
 
 	var result = SMVC.sm.putChipInCell(row, col, theChip); 
 
-	console.log("VC.putChipInCell > sm.putChipInCell was successful? ", result);
+	// console.log("VC.putChipInCell > sm.putChipInCell was successful? ", result);
 	// redraw this cell and adjacent ones
 	vc.drawBoard();
 
@@ -791,7 +791,7 @@ SMVC.VC.prototype.solveRange = function() {
  */
 
 SMVC.VC.prototype.sellChips = function(chipType) {
-	console.log("VC.sellChips(" , chipType, "): calling underlying function");
+	// console.log("VC.sellChips(" , chipType, "): calling underlying function");
 	SMVC.sm.sellChips(chipType);
 	vc.drawSubWindow();
 };
@@ -809,13 +809,13 @@ SMVC.VC.prototype.doSecondsUpdate = function() {
 	// ...here goes all that chip value updating...
 
 	// Update the clock.
-	console.log("SMVC.doSecondsUpdate > SMVC._secondsLeft: ", SMVC._secondsLeft);
+	// console.log("SMVC.doSecondsUpdate > SMVC._secondsLeft: ", SMVC._secondsLeft);
 	SMVC._secondsLeft--;
 
 	// If the game is over, end the game.
 	if(SMVC._secondsLeft <= 0) {
-		console.log("doSecondsUpdate > no more seconds! Game over.");
-		// vc.endGame();
+		// console.log("doSecondsUpdate > no more seconds! Game over.");
+		vc.endGame();
 	} else {
 		// Rehook the seconds timer.
 		SMVC._secondsTimer = window.setTimeout(vc.doSecondsUpdate, 1000);		
@@ -827,6 +827,20 @@ SMVC.VC.prototype.doSecondsUpdate = function() {
 
 }
 
+
+
+SMVC.VC.prototype.endGame = function() {
+
+	// here would go any animations saying "time's up!"
+
+	// here we would tally any end-game bonuses
+
+	// update the end screen
+	$("#finalpoints").text("$" + SMVC.sm.getCurrentPlayerPoints());
+
+	vc.activatePage("#endwindow");
+
+}
 
 
 
@@ -906,29 +920,55 @@ SMVC.VC.prototype.initialOutput = function(){
 			vc.getButtonSellClick(ev);
 		});
 
+
+
 		// intro screen
 
-
-		console.log("VC.initialOutput > .button-startgame: ", $(".button-startgame"));
+		// console.log("VC.initialOutput > .button-startgame: ", $(".button-startgame"));
 
 		$(".button-startgame").on("mouseup", function(ev){
-			console.log("startgame pushed");
+			// console.log("startgame pushed");
 
 			var md = $("#inputMinutes").val();
 			md = parseInt(md, 10); 
 
-			console.log("VC.initialOutput > .button-startgame.onmouseup > md: ", md);
-
+			// console.log("VC.initialOutput > .button-startgame.onmouseup > md: ", md);
 
 			if(typeof md != "number") { md = 3; }
 			if( md < 1 || md > 5 ) { md = 3; }
 
-			SMVC._maxSeconds = md * 60;
+			///////////////////////////////////////////////////
+			// SMVC._maxSeconds = md * 60;
+			/////////////////////////////////////////////////////
 
-			console.log("VC.initialOutput > .button-startgame.onmouseup > SMVC._maxSeconds: ", SMVC._maxSeconds);
+			SMVC._maxSeconds = 5;
 
+
+			// console.log("VC.initialOutput > .button-startgame.onmouseup > SMVC._maxSeconds: ", SMVC._maxSeconds);
 			vc.initializeGame();	
 		});
+
+
+		// end screen
+
+		$(".button-restartgame").on("mouseup", function(ev){
+
+			// restart the game board with the same parameters, but preserving most player info
+			SMVC.sm.reInitSame();
+
+			vc.drawBoard();
+			vc.drawSubWindow();
+
+			vc.initializeGame();
+
+
+		});
+
+		$(".button-settings").on("mouseup", function(ev){
+			vc.activatePage("#startwindow");
+		});
+
+
 
 	});
 }
@@ -1033,12 +1073,12 @@ SMVC.VC.prototype.drawSubWindow = function() {
 
 		// this needs a padding function
 
-		console.log("vc.drawSubWindow > SMVC._secondsLeft: ", SMVC._secondsLeft);
+		// console.log("vc.drawSubWindow > SMVC._secondsLeft: ", SMVC._secondsLeft);
 
 		mins = Math.floor(SMVC._secondsLeft / 60);
 		secs = SMVC._secondsLeft - (mins * 60);
 
-		console.log("vc.drawSubWindow > mins: ", mins, ", secs: ", secs);
+		// console.log("vc.drawSubWindow > mins: ", mins, ", secs: ", secs);
 
 		if(mins < 10) { mins = "0" + mins; }
 		if(secs < 10) { secs = "0" + secs; }
@@ -1156,20 +1196,20 @@ SMVC.VC.prototype.clearInteractionClassFromCell = function(row, col, removeConti
 
 	vc.clearTemporaryRange();
 
-	console.log("vc.clearInteractionClassFromCell > about to check cell in ", row, ", ", col);
+	// console.log("vc.clearInteractionClassFromCell > about to check cell in ", row, ", ", col);
 
 	if(SMVC.sm.cellIsValid(row, col)) {
 
-		console.log("vc.clearInteractionClassFromCell > cell is valid");
+		// console.log("vc.clearInteractionClassFromCell > cell is valid");
 
 		currentCell = $(".cell-" + row + "-" + col);
 		currentClasses = currentCell.attr("class");
 
-		console.log("vc.clearInteractionClassFromCell > current class string for current cell is '", currentClasses, "'");
+		// console.log("vc.clearInteractionClassFromCell > current class string for current cell is '", currentClasses, "'");
 
 		currentCell.attr("class", vc.removeSubstrWords(currentClasses, "selection-"));
 
-		console.log("vc.clearInteractionClassFromCell > new class string for current cell is '", currentCell.attr("class"), "'");
+		// console.log("vc.clearInteractionClassFromCell > new class string for current cell is '", currentCell.attr("class"), "'");
 
 
 	} else { return false; }

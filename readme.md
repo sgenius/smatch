@@ -62,7 +62,16 @@ The following adaptations are in effect:
 - *The game is to be developed iteratively.* The game development will not have strict iteration times, documents and so on, but it needs to be iterative in nature and provide frequent deliverables. 
 - *The game code must be efficient.* This is, however, to be implemented gradually and on an "as needed" basis. As this is mostly a learning project, I do expect to refactorize the code a number of times before launching a public beta. Refining the code is important, but having important features come to life at all is even more important.
 
-## Current state of development
+## History
+### v0.0.2 - Sept. 7, 2015
+- Created *timer*. 
+- A basic *game cycle* is now set. There's an initial screen to configure gameplay length, then the main game screen, then a *final screen* shown when the time's up. From here the game can restart. Reconfigure and then restart is not working properly yet.
+
+#### In progress
+- I just figured out that I never modeled data initialization around screens. I might need to reconfigure some code in order to modularize this. It'll be needed when (eventually) more screens are added to the app flux.
+- Chip types, algorithms, and so on.
+
+
 ### v0.0.1 - Sept. 6, 2015
 #### Already done
 - *Base MVVM classes.* There is a single base model; it's within a somewhat strict class implementing a singleton pattern. The model class has a number of subclasses corresponding to different game objects; currently this consists of a Board and a Player class.
