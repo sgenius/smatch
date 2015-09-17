@@ -8,8 +8,8 @@
 
 var SMVC = {
 	sm: undefined,
-	_cellWidth: 60,
-	_cellHeight: 60,
+	_cellWidth: 48,
+	_cellHeight: 48,
 
 	// pseudo-constants; until 'const' isn't a thing, we'll use these
 
@@ -520,8 +520,18 @@ SMVC.VC.prototype.getCellClick = function(event) {
 
 SMVC.VC.prototype.getButtonSellClick = function(ev) {
 
-	var currentButton = $(event.target);
-	var whatChipId = currentButton.parent().attr("id");
+	var currentButton = $(ev.currentTarget);
+	var whatChipId;
+	// var whatChipId = currentButton.parent().attr("id");
+	console.log("getButtonSellClick > currentButton: ", currentButton);
+
+	// if(currentButton.hasClass(".chipvaluecontainer")){
+	// 	whatChipId = currentButton.attr("id");
+	// } else {
+	// 	whatChipId = currentButton.parents(".chipvaluecontainer").attr("id");	
+	// }
+	whatChipId = currentButton.attr("id");
+
 	var whatChipArr = whatChipId.split("-");
 	var whatChip = whatChipArr[1];
 	console.log("getButtonSellClick > whatChip: ", whatChip);
@@ -937,11 +947,7 @@ SMVC.VC.prototype.initialOutput = function(){
 			if(typeof md != "number") { md = 3; }
 			if( md < 1 || md > 5 ) { md = 3; }
 
-			///////////////////////////////////////////////////
-			// SMVC._maxSeconds = md * 60;
-			/////////////////////////////////////////////////////
-
-			SMVC._maxSeconds = 5;
+			SMVC._maxSeconds = md * 60;
 
 
 			// console.log("VC.initialOutput > .button-startgame.onmouseup > SMVC._maxSeconds: ", SMVC._maxSeconds);
@@ -1071,7 +1077,6 @@ SMVC.VC.prototype.drawSubWindow = function() {
 	} else {
 		// clock, if this is a time-based game
 
-		// this needs a padding function
 
 		// console.log("vc.drawSubWindow > SMVC._secondsLeft: ", SMVC._secondsLeft);
 
@@ -1103,8 +1108,9 @@ SMVC.VC.prototype.drawSubWindow = function() {
 
 	// the count starts in 1 because we don't need to display the count for wildcards
 	for(i = 1; i < chipcount.length; i++) {
-		divstr  = "<div class='chipvaluecontainer' id='chipvalue-" + i + "'><div class='chip-" + i + "'></div><div class='chipvalue'>$" + chipvalue[i] + "</div>";
-		divstr += "<div class='chiptendency'></div><div class='chipcount'>" + chipcount[i] + "</div><span class='button button-sell'>Sell</span></div>";
+		divstr  = "<div class='chipvaluecontainer button-sell' id='chipvalue-" + i + "'><div class='chipcount'><span class='chipsymbol'></span><span class='by'>x</span> " + chipcount[i] + "</div>";
+		// divstr += "<div class='chiptendency'></div><div class='chipcount'>" + chipcount[i] + "</div><span class='button button-sell'>Sell</span></div>";
+		divstr += "<div class='chipvalue'>$" + chipvalue[i] + " <span class='chiptendency'></span></div></div>";
 		$("#chipvalues").append(divstr);
 	}
 
