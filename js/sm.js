@@ -99,6 +99,10 @@ var SM = (function() {
 		var _currentAction = 0;
 
 
+		// minimum number of chips in a valid range
+		var _minRangeChips = 5;
+
+
 
 
 
@@ -621,12 +625,15 @@ var SM = (function() {
 		};
 
 
-		// returns true if all of the chips in a range are either the same type or wildcards.
-		// returns false otherwise.
+		// returns the number of chips if all of the chips in a range are either the same type or wildcards.
+		// returns 0 otherwise.
 		// Note: if the range contains at least one blocked or invalid cell, the match fails.
 		_Board.prototype.rangeMatchesSameType = function(row1, col1, row2, col2) {
-			if(!this.cellIsValid(row1, col1)) { return false; }
-			if(!this.cellIsValid(row2, col2)) { return false; }
+
+			var matchedChips = 0;
+
+			if(!this.cellIsValid(row1, col1)) { return 0; }
+			if(!this.cellIsValid(row2, col2)) { return 0; }
 
 			var currentRow, currentCol;
 			var target = undefined;
@@ -650,26 +657,34 @@ var SM = (function() {
 					} else {
 
 						// if we found a wildcard, just go on
-						if(currentValue == 0) { continue; }
+						if(currentValue == 0) { 
+							matchedChips++;
+							continue; 
+						}
 
 						// if this is the first match, let the target value be this one
 						if(target === undefined) {
 							target = currentValue;
+							matchedChips++;
 						} else {
 							// if this value is different to that of the target, the search is off
 							if(target != currentValue) {
 								match = false; break;
+							} else {
+								// Else, we found a valid chip.
+								matchedChips++;
 							}
 						}
 					}
 				}
 
 				// if we broke out of the inner loop due to a mismatch, break this loop too
-				if(match === false) { break; }
+				// and also set matchedChips to 0
+				if(match === false) { matchedChips = 0; break; }
 
 			}
 
-			return match;
+			return matchedChips;
 
 		}
 
@@ -1101,6 +1116,9 @@ var SM = (function() {
 				return _board.rangeMatchesSameType(row1, col1, row2, col2);
 			},
 
+			getMinRangeChips: function() {
+				return _minRangeChips;
+			},
 
 			getCurrentPlayerNumber: function() {
 				return _currentPlayer;

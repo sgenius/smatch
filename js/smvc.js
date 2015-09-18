@@ -443,6 +443,7 @@ SMVC.VC.prototype.getCellClick = function(event) {
 	var currentCell = vc.getCellFromDiv(theClass);
 	var currentCoords = vc.getCoordsFromClassName(theClass);
 
+	var chipsInRange;
 
 
 	// currentCell now holds the cell object of the clicked cell div.
@@ -492,7 +493,10 @@ SMVC.VC.prototype.getCellClick = function(event) {
 					// If the cell is not contiguous, this means a range, either valid or invalid.
 					if(vc.rangeIsValid()) {
 						// check if the range contains a match; if so, score
-						if(vc.rangeMatchesSameType()) {
+						// the range must also have a minimum acceptable number of valid chips
+
+						chipsInRange = vc.rangeMatchesSameType();
+						if(chipsInRange > sm.getMinRangeChips()) {
 							// console.log("VC.getCellClick > RANGE MATCHES!!!!!!!");
 							vc.solveRange();
 						}
